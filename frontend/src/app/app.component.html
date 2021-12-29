@@ -1,0 +1,11 @@
+<dx-accordion
+    [dataSource]="accordionData"
+    itemTemplate="item">
+    <div *dxTemplate="let itemData of 'item'">
+        <p *ngFor="let key of getItemKeys(itemData)">
+            {{key}}: {{itemData[key]}}
+        </p>
+    </div>
+</dx-accordion>
+
+<router-outlet></router-outlet>
