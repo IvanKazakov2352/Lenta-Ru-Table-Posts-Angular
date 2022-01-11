@@ -1,0 +1,42 @@
+<div class="spinner" *ngIf="show">
+  <mat-spinner></mat-spinner>
+</div>
+<table
+  *ngIf="!show"
+  mat-table
+  [dataSource]="posts"
+  class="mat-elevation-z8"
+  style="margin: 30px"
+>
+  <ng-container matColumnDef="Название новости">
+    <th mat-header-cell *matHeaderCellDef>Название новости</th>
+    <td mat-cell *matCellDef="let post">
+      {{ !post.title?._text ? "No text" : post.title?._text }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="Краткое описание">
+    <th mat-header-cell *matHeaderCellDef>Краткое описание</th>
+    <td mat-cell *matCellDef="let post">
+      {{
+        post.description?._cdata
+          ? post.description?._cdata
+          : "Описание новости отсутствует"
+      }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="Ссылка на новость">
+    <th mat-header-cell *matHeaderCellDef>Ссылка на новость</th>
+    <td mat-cell *matCellDef="let post">
+      <a [href]="post.link._text" target="_blank">{{ post.link._text }}</a>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="Дата и время">
+    <th mat-header-cell *matHeaderCellDef>Дата и время</th>
+    <td mat-cell *matCellDef="let post">
+      {{ post.pubDate._text | date: "dd.LL.yyyy hh:mm" }}
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<button mat-raised-button color="primary" class="margin" *ngIf="!show" (click)="getNewPosts()">Обновить данные</button>
