@@ -1,11 +1,42 @@
-<dx-accordion
-    [dataSource]="accordionData"
-    itemTemplate="item">
-    <div *dxTemplate="let itemData of 'item'">
-        <p *ngFor="let key of getItemKeys(itemData)">
-            {{key}}: {{itemData[key]}}
-        </p>
+<div>
+  <h1 class="span">Lenta.ru Новости</h1>
+  <div class="span">
+    <div *ngIf="show" class="lds-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
-</dx-accordion>
-
-<router-outlet></router-outlet>
+  </div>
+  <div *ngIf="!show" class="span table-body">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Название новости</th>
+          <th>Краткое описание</th>
+          <th>Ссылка на новость</th>
+          <th>Дата и время</th>
+          <th>Изображение</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of posts">
+          <td>{{!post.title?._text ? "Нет автора" : post.title?._text}}</td>
+          <td>{{!post.description?._cdata ? "Нет описания" : post.description?._cdata}}</td>
+          <td><a [href]="post.link?._text" target="_blank">{{!post.link?._text ? "Ссылка отсутствует" : post.link?._text}}</a></td>
+          <td>{{post.pubDate?._text | date:"dd.LL.yyyy hh:mm"}}</td>
+          <td><img [src]="post.enclosure?._attributes?.url" class="table-image" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="!show" class="button-reload span" (click)="getNewPosts()"><p>Обновить данные</p></div>
+</div>
